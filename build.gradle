@@ -1,0 +1,53 @@
+buildscript {
+    ext {
+        springBootVersion = '2.1.5.RELEASE'
+    }
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    }
+}
+
+subprojects {
+    apply plugin: 'java'
+    apply plugin: 'eclipse'
+    apply plugin: 'org.springframework.boot'
+    apply plugin: 'io.spring.dependency-management'
+
+    group = 'com.rest'
+    version = '0.0.1-SNAPSHOT'
+    sourceCompatibility = 1.8
+
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        compile('org.springframework.boot:spring-boot-starter-data-jpa')
+//        compile('org.springframework.boot:spring-boot-starter-security')
+//        compile('com.fasterxml.jackson.datatype:jackson-datatype-jsr310')
+//        compile('org.springframework.data:spring-data-rest-hal-browser')
+//
+//        runtime('org.springframework.boot:spring-boot-devtools')
+//        runtime('mysql:mysql-connector-java')
+        runtime('com.h2database:h2')
+        compileOnly('org.projectlombok:lombok')
+        testCompile('org.springframework.boot:spring-boot-starter-test')
+//        testCompile('org.springframework.security:spring-security-test')
+        testCompile group: 'junit', name: 'junit', version: '4.12'
+    }
+}
+
+project(':module-web') {
+    dependencies {
+        compile project(':module-common')
+    }
+}
+
+project(':module-api') {
+    dependencies {
+        compile project(':module-common')
+    }
+}
