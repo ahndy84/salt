@@ -14,14 +14,13 @@ import static org.hamcrest.MatcherAssert.assertThat;
 @RunWith(SpringRunner.class)
 @DataJpaTest
 public class MemberRepositoryTest {
-
     @Autowired
     private MemberRepository memberRepository;
 
     @Test
-    public void add() {
-        this.memberRepository.save(new Member("ahndy84", "ahndy84@gmail.com"));
-        Member saved = this.memberRepository.findById(1L).orElse(null);
-        assertThat(saved.getName(), is("ahndy84"));
+    public void add () {
+        memberRepository.save(new Member("salt", "salt@socar.kr"));
+        Member saved = memberRepository.findById(1L).orElse(null);
+        assertThat(saved.getName(), is("salt"));
     }
 }

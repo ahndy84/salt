@@ -1,15 +1,2 @@
-plugins {
-    id 'java'
-}
-
-group 'com.salt'
-version '0.0.1-SNAPSHOT'
-
-sourceCompatibility = 1.8
-
-repositories {
-    mavenCentral()
-}
-
-dependencies {
-}
+bootJar { enabled = false }
+jar { enabled = true }

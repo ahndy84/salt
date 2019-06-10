@@ -1,0 +1,17 @@
+server:
+  port: 80
+---
+spring:
+  profiles: local
+server:
+  port:8080
+---
+spring:
+  profiles: dev
+server:
+  port:8081
+---
+spring:
+  profiles: live
+server:
+  port:8082
