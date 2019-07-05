@@ -18,8 +18,8 @@ public class MemberRepositoryTest {
     private MemberRepository memberRepository;
 
     @Test
-    public void add () {
-        memberRepository.save(new Member("salt", "salt@socar.kr"));
+    public void add() {
+        memberRepository.save(new Member("salt", "salt@socar.kr", "salt"));
         Member saved = memberRepository.findById(1L).orElse(null);
         assertThat(saved.getName(), is("salt"));
     }

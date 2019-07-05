@@ -26,30 +26,21 @@ subprojects {
     }
 
     dependencies {
-//        compile('org.springframework.boot:spring-boot-starter-security')
-//        compile('com.fasterxml.jackson.datatype:jackson-datatype-jsr310')
-//        compile('org.springframework.data:spring-data-rest-hal-browser')
-//
-//        runtime('org.springframework.boot:spring-boot-devtools')
-//        runtime('mysql:mysql-connector-java')
-
-//        testCompile('org.springframework.security:spring-security-test')
-
+        compileOnly('org.projectlombok:lombok')
         compile('org.springframework.boot:spring-boot-starter-jdbc')
+
         testCompile group: 'junit', name: 'junit', version: '4.12'
         testCompile('org.springframework.boot:spring-boot-starter-test')
 
         runtime('mysql:mysql-connector-java')
+        runtime('com.h2database:h2')
     }
 }
 
 
 project(':module-common') {
     dependencies {
-        compileOnly('org.projectlombok:lombok')
         compile('org.springframework.boot:spring-boot-starter-data-jpa')
-
-        runtime('com.h2database:h2')
 
     }
 }
@@ -57,22 +48,17 @@ project(':module-common') {
 project(':module-web') {
     dependencies {
         compile project(':module-common')
-        compile('org.springframework.boot:spring-boot-starter-web')
     }
 }
 
 project(':module-api') {
     dependencies {
         compile project(':module-common')
-        compile('org.springframework.boot:spring-boot-starter-web')
     }
 }
 
 project('module-batch') {
     dependencies {
         compile project(':module-common')
-        compile('org.springframework.boot:spring-boot-starter-batch')
-
-
     }
 }

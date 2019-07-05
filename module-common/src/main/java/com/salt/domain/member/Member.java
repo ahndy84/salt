@@ -1,6 +1,5 @@
 package com.salt.domain.member;
 
-
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -24,16 +23,31 @@ public class Member {
     @Column
     private String nickname;
 
-    @Builder
-    public Member(String name, String email, String nickname) {
-        this.name = name;
-        this.email = email;
-        this.nickname = nickname;
+    @Column
+    @Enumerated(EnumType.STRING)
+    private MemberStatus status;
+
+    public Member setInactive() {
+        this.status = MemberStatus.INACTIVE;
+        return this;
     }
+
+    @Builder
+    public Member(){}
 
     @Builder
     public Member(String name, String email) {
         this.name = name;
         this.email = email;
+        this.nickname = name;
+        this.status = MemberStatus.ACTIVE;
+    }
+
+    @Builder
+    public Member(String name, String email, String nickname) {
+        this.name = name;
+        this.email = email;
+        this.nickname = nickname;
+        this.status = MemberStatus.ACTIVE;
     }
 }
