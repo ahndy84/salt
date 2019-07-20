@@ -32,7 +32,7 @@ public class inactiveMemberConfig {
             JobBuilderFactory jobBuilderFactory,
             Step inactiveJobStep
     ) {
-        log.info(">>>>> This is inactiveMemberJob");
+        //log.info(">>>>> This is inactiveMemberJob");
         return jobBuilderFactory.get("inactiveMemberJob")
                 .preventRestart()
                 .start(inactiveJobStep)
@@ -43,7 +43,7 @@ public class inactiveMemberConfig {
     public Step inactiveMemberStep(
             StepBuilderFactory stepBuilderFactory
     ) {
-        log.info(">>>>> This is inactiveMemberStep");
+        //log.info(">>>>> This is inactiveMemberStep");
 
         return stepBuilderFactory.get("inactiveMemberStep")
                 .<Member, Member> chunk(10)
@@ -56,20 +56,20 @@ public class inactiveMemberConfig {
     @Bean
     @StepScope
     public ListItemReader<Member> inactiveMemberReader() {
-        List<Member> oldMember = memberRepository.findByStatusNot(MemberStatus.INACTIVE);
-        return new ListItemReader<>(oldMember);
+        List<Member> members = memberRepository.findAll();
+        return new ListItemReader<>(members);
     }
 
     public ItemProcessor<Member, Member> inactiveMemberProcessor() {
-        return Member::setInactive;
-        /*
-        return new ItemProcessor<Member, Member>() {
-            @Override
-            public User process(Member member) throws Exception {
-                return member.setInactive();
-            }
-        };
-        */
+//        return Member::setInactive;
+        return Member::setStatusByUnPaid;
+
+//        return new ItemProcessor<Member, Member>() {
+//            @Override
+//            public Member process(Member member) throws Exception {
+//                return member.setStatusByUnPaid();
+//            }
+//        };
     }
 
     public ItemWriter<Member> inactiveMemberWriter() {

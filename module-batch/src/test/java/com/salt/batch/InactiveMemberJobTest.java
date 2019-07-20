@@ -14,6 +14,8 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.time.LocalDate;
+
 import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringRunner.class)
@@ -32,16 +34,20 @@ public class InactiveMemberJobTest {
         generateMember();
         assertEquals(10, memberRepository.findAll().size());
         assertEquals(10, memberRepository.findByStatusEquals(MemberStatus.ACTIVE).size());
-
         JobExecution jobExecution = inactiveMemberJobLauncher.launchJob();
         assertEquals(BatchStatus.COMPLETED, jobExecution.getStatus());
         assertEquals(10, memberRepository.findByStatusEquals(MemberStatus.INACTIVE).size());
-
     }
 
     protected void generateMember() {
         for(int i = 0; i < 10; i++) {
-            Member member = new Member("salt" + i, "salt" + i + "@socar.kr", "salt" + i);
+            String name = "salt" + i;
+            String email = name + "@test.com";
+            String nickName = name;
+            int amountCharged = 100;
+            int amountPaid = 50;
+            LocalDate dueDate = LocalDate.now().minusDays(31);
+            Member member = new Member(name, email, nickName, amountCharged, amountPaid, dueDate);
             this.memberRepository.save(member);
         }
     }
