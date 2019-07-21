@@ -45,13 +45,14 @@ public class Member {
 	private LocalDateTime updatedDate;
 
 	public Member setStatusByUnPaid() {
+
 		if(this.isUnpaid()) {
 			this.status = MemberStatus.INACTIVE;
 		}
 		return this;
 	}
 
-	public boolean isUnpaid() {
+	private boolean isUnpaid() {
 		return this.amountCharged <= this.amountPaid;
 	}
 

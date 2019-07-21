@@ -2,11 +2,11 @@ debug: true
 logging.level.org.hibernate.type.descriptor.sql.BasicBinder: trace
 
 spring:
-#  datasource:
-#    url: jdbc:mysql://xxx.x.x.x:3306/{db명}
-#    username: {아이디}
-#    password: {password}
-#    driver-class-name:  com.mysql.jdbc.Driver
+  datasource:
+    url: jdbc:mysql://125.191.212.64:3307/community_test?characterEncoding=UTF-8&serverTimezone=UTC
+    username: ahndy84
+    password: samsung10!
+    driver-class-name:  com.mysql.cj.jdbc.Driver
   jpa:
     show-sql: true
     hibernate:

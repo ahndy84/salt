@@ -2,7 +2,6 @@ package com.salt.batch.jobs;
 
 import com.salt.domain.member.Member;
 import com.salt.domain.member.MemberRepository;
-import com.salt.domain.member.MemberStatus;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.Job;
@@ -19,8 +18,8 @@ import org.springframework.context.annotation.Configuration;
 
 import java.util.List;
 
-@Slf4j
-@AllArgsConstructor
+@Slf4j  // log 사용을 위한 lombok Annotation
+@AllArgsConstructor  // 생성자 DI를 위한 lombok Annotation
 @Configuration
 public class inactiveMemberConfig {
 
@@ -32,7 +31,7 @@ public class inactiveMemberConfig {
             JobBuilderFactory jobBuilderFactory,
             Step inactiveJobStep
     ) {
-        //log.info(">>>>> This is inactiveMemberJob");
+        log.info(">>>>> This is inactiveMemberJob");
         return jobBuilderFactory.get("inactiveMemberJob")
                 .preventRestart()
                 .start(inactiveJobStep)
@@ -43,13 +42,12 @@ public class inactiveMemberConfig {
     public Step inactiveMemberStep(
             StepBuilderFactory stepBuilderFactory
     ) {
-        //log.info(">>>>> This is inactiveMemberStep");
-
+        log.info(">>>>> This is inactiveMemberStep");
         return stepBuilderFactory.get("inactiveMemberStep")
                 .<Member, Member> chunk(10)
                 .reader(inactiveMemberReader())
-                .processor(inactiveMemberProcessor())
-                .writer(inactiveMemberWriter())
+                .processor(this.inactiveMemberProcessor())
+                .writer(this.inactiveMemberWriter())
                 .build();
     }
 
@@ -57,22 +55,23 @@ public class inactiveMemberConfig {
     @StepScope
     public ListItemReader<Member> inactiveMemberReader() {
         List<Member> members = memberRepository.findAll();
+        log.info(">>>>>>>>>> This is inactiveMemberReader : " + members.size());
         return new ListItemReader<>(members);
     }
 
     public ItemProcessor<Member, Member> inactiveMemberProcessor() {
-//        return Member::setInactive;
-        return Member::setStatusByUnPaid;
-
-//        return new ItemProcessor<Member, Member>() {
-//            @Override
-//            public Member process(Member member) throws Exception {
-//                return member.setStatusByUnPaid();
-//            }
-//        };
+//        return Member::setStatusByUnPaid;
+        return new ItemProcessor<Member, Member>() {
+            @Override
+            public Member process(Member member) throws Exception {
+                log.info(">>>>>>>>>> This is inactiveMemberProcessor");
+                return member.setStatusByUnPaid();
+            }
+        };
     }
 
     public ItemWriter<Member> inactiveMemberWriter() {
+        log.info(">>>>>>>>>> This is inactiveMemberWriter");
         return ((List<? extends Member> memberList) ->
                 memberRepository.saveAll(memberList));
     }
