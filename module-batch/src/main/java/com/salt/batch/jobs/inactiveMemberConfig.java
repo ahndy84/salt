@@ -17,6 +17,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import java.util.List;
+import java.util.Date;
 
 @Slf4j  // log 사용을 위한 lombok Annotation
 @AllArgsConstructor  // 생성자 DI를 위한 lombok Annotation

@@ -7,20 +7,21 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.batch.core.BatchStatus;
 import org.springframework.batch.core.JobExecution;
+import org.springframework.batch.core.JobParametersBuilder;
 import org.springframework.batch.test.JobLauncherTestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.EmbeddedDatabaseConnection;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-
 import java.time.LocalDate;
+import java.util.Date;
 
 import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-//@AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
+@AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
 public class InactiveMemberJobTest {
 
     @Autowired
@@ -32,9 +33,13 @@ public class InactiveMemberJobTest {
     @Test
     public void 휴면_회원_전환_테스트() throws  Exception {
         generateMember();
-        //assertEquals(10, memberRepository.findAll().size());
-        //assertEquals(10, memberRepository.findByStatusEquals(MemberStatus.ACTIVE).size());
-        JobExecution jobExecution = inactiveMemberJobLauncher.launchJob();
+        assertEquals(10, memberRepository.findAll().size());
+        assertEquals(10, memberRepository.findByStatusEquals(MemberStatus.ACTIVE).size());
+
+        Date nowDate = new Date();
+        JobExecution jobExecution = inactiveMemberJobLauncher.launchJob(
+                new JobParametersBuilder().addDate("noeDateTime", nowDate).toJobParameters()
+        );
         assertEquals(BatchStatus.COMPLETED, jobExecution.getStatus());
         assertEquals(10, memberRepository.findByStatusEquals(MemberStatus.ACTIVE).size());
     }
