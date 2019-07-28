@@ -21,24 +21,21 @@ import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-@AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
+//@AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
 public class InactiveMemberJobTest {
-
     @Autowired
-    private JobLauncherTestUtils inactiveMemberJobLauncher;
-
+    private JobLauncherTestUtils unPaidMemberConfig;
     @Autowired
     private MemberRepository memberRepository;
 
     @Test
-    public void 휴면_회원_전환_테스트() throws  Exception {
+    public void 미납회원_생성_테스트() throws Exception {
         generateMember();
         assertEquals(10, memberRepository.findAll().size());
         assertEquals(10, memberRepository.findByStatusEquals(MemberStatus.ACTIVE).size());
 
-        Date nowDate = new Date();
-        JobExecution jobExecution = inactiveMemberJobLauncher.launchJob(
-                new JobParametersBuilder().addDate("noeDateTime", nowDate).toJobParameters()
+        JobExecution jobExecution = unPaidMemberConfig.launchJob(
+                //new JobParametersBuilder().addDate("nowDateTime", nowDate).toJobParameters()
         );
         assertEquals(BatchStatus.COMPLETED, jobExecution.getStatus());
         assertEquals(10, memberRepository.findByStatusEquals(MemberStatus.ACTIVE).size());

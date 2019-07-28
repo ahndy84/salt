@@ -12,11 +12,11 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class TestJobConfig {
     @Bean
-    public JobLauncherTestUtils inactiveMemberJobLauncher() {
+    public JobLauncherTestUtils unPaidMemberJobLauncher() {
         return new JobLauncherTestUtils() {
             @Override
             @Autowired
-            public  void setJob(@Qualifier("inactiveMemberJob") Job job) {
+            public  void setJob(@Qualifier("unPaidMemberJob") Job job) {
                 super.setJob(job);
             }
         };

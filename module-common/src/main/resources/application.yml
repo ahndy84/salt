@@ -1,6 +1,5 @@
 debug: true
 logging.level.org.hibernate.type.descriptor.sql.BasicBinder: trace
-
 #---
 #spring:
 #  profiles: local
@@ -12,9 +11,7 @@ logging.level.org.hibernate.type.descriptor.sql.BasicBinder: trace
 #      driver-class-name: org.h2.Driver
 #server:
 #  port: 8080
----
 spring:
-  profiles: mysql
   datasource:
     url: jdbc:mysql://125.191.212.64:3307/community_test?characterEncoding=UTF-8&serverTimezone=UTC
     username: ahndy84
@@ -23,19 +20,9 @@ spring:
   jpa:
     show-sql: true
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
     properties:
       hibernate:
         format_sql: true
 server:
   port: 80
----
-spring:
-  profiles: dev
-server:
-  port:8081
----
-spring:
-  profiles: live
-server:
-  port:8082

@@ -23,7 +23,7 @@ public class Member {
 	private String email;
 
 	@Column
-	private String nickname;
+	private String nickName;
 
 	@Column
 	@Enumerated(EnumType.STRING)
@@ -39,20 +39,19 @@ public class Member {
 	private LocalDate dueDate;
 
 	@Column
-	private LocalDateTime createdDate;
+	private LocalDateTime createdAt;
 
 	@Column
-	private LocalDateTime updatedDate;
+	private LocalDateTime updatedAt;
 
 	public Member setStatusByUnPaid() {
-
 		if(this.isUnpaid()) {
 			this.status = MemberStatus.INACTIVE;
 		}
 		return this;
 	}
 
-	private boolean isUnpaid() {
+	public boolean isUnpaid() {
 		return this.amountCharged <= this.amountPaid;
 	}
 
@@ -60,15 +59,15 @@ public class Member {
 	public Member() {}
 
 	@Builder
-	public Member(String name, String email, String nickname, int amountCharged, int amountPaid, LocalDate dueDate) {
+	public Member(String name, String email, String nickName, int amountCharged, int amountPaid, LocalDate dueDate) {
 		this.name = name;
 		this.email = email;
-		this.nickname = nickname;
+		this.nickName = nickName;
 		this.status = MemberStatus.ACTIVE;
 		this.amountCharged = amountCharged;
 		this.amountPaid = amountPaid;
 		this.dueDate = dueDate;
-		this.createdDate = LocalDateTime.now();
-		this.updatedDate = LocalDateTime.now();
+		this.createdAt = LocalDateTime.now();
+		this.updatedAt = LocalDateTime.now();
 	}
 }
